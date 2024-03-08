@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "encryption_package"
+version = "1.0.0"
+authors = [
+  { name="Vladyslav Yarema", email="stepanskyvlad@gmail.com" },
+]
+description = "A package encrypt and decrypt text using CLI"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["encrypt", "decrypt"]
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+
+[project.urls]
+Repository = "git@github.com:stepanskyvlad/cli-enc-project.git"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/encryption_package"]
+sources = ["src"]
+
+[tool.hatch.build]
+skip-excluded-dirs = true
