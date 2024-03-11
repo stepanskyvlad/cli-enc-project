@@ -2,11 +2,11 @@
 This module provides the sign tool. It can be used to sign a file or verify a signature file.
 How to use the module:
 1) Sign mode:
-    python sign_tool.py -s path/to/key/file path/to/signature/file path/to/message/file
+    python signtool.py --sign path/to/key/file path/to/signature/file path/to/message/file
         - signs the message from the message file using the key file and saves the signature into the signature file.
 
 2) Verify mode:
-    python sign_tool.py -v path/to/key/file path/to/signature/file path/to/message/file
+    python signtool.py --verify path/to/key/file path/to/signature/file path/to/message/file
         - verifies the signature from the signature file using the key file and the message from the message file.
 """
 import sys

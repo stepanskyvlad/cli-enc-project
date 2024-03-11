@@ -114,7 +114,7 @@ def main():
             print(f"Text encrypted successfully. Encrypted text written into {args.write}")
         # Print the encrypted text on the console
         else:
-            print(encrypted_text)
+            print(f"Text encrypted successfully. Encrypted text:\n{encrypted_text}")
 
     # Decrypt mode
     elif args.decrypt:
@@ -127,7 +127,7 @@ def main():
             print(f"Text decrypted successfully. Decrypted text written into {args.write}")
         # Print the decrypted text on the console
         else:
-            print(decrypted_text)
+            print(f"Text decrypted successfully. Decrypted text:\n{decrypted_text}")
 
 
 if __name__ == "__main__":

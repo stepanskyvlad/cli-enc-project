@@ -40,7 +40,7 @@ def save_key(key, folder_path) -> None:
 def parse_args(args) -> Namespace:
     """Parse the arguments."""
     parser = ArgumentParser(description="Create and save public and private keys into the folder")
-    parser.add_argument("keys_folder", type=str, required=True, help="Path to the folder")
+    parser.add_argument("keys_folder", type=str, help="Path to the folder")
 
     return parser.parse_args(args)
 
