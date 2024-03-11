@@ -111,6 +111,7 @@ def main():
         # Write the encrypted text into a file or print it on the console
         if args.write:
             write_encrypted_file(encrypted_text, args.write)
+            print(f"Text encrypted successfully. Encrypted text written into {args.write}")
         # Print the encrypted text on the console
         else:
             print(encrypted_text)
@@ -123,6 +124,7 @@ def main():
         # Write the decrypted text into a file or print it on the console
         if args.write:
             write_decrypted_file(decrypted_text, args.write)
+            print(f"Text decrypted successfully. Decrypted text written into {args.write}")
         # Print the decrypted text on the console
         else:
             print(decrypted_text)

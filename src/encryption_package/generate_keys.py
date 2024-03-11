@@ -55,7 +55,7 @@ def main():
     save_key(key=public_key, folder_path=os.path.join(args.keys_folder, "public.pem"))
     # Save private key
     save_key(key=private_key, folder_path=os.path.join(args.keys_folder, "private.pem"))
-    print("RSA key pair generated and saved successfully.")
+    print("RSA key pair generated and saved successfully. Keys are saved in the folder: ", args.keys_folder)
 
 
 if __name__ == "__main__":
