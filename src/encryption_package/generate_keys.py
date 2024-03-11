@@ -5,7 +5,7 @@ How to use it:
     - generates a pair of public and private keys and saves them into the folder
 """
 import rsa
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 import os
 import sys
 from typing import Tuple
@@ -25,7 +25,7 @@ def generate_key_pair(bits=1024) -> Tuple[bytes, bytes]:
     return public_key.save_pkcs1("PEM"), private_key.save_pkcs1("PEM")
 
 
-def save_key(key, folder_path):
+def save_key(key, folder_path) -> None:
     """
     Save the key into the folder.
 
@@ -37,7 +37,7 @@ def save_key(key, folder_path):
         f.write(key)
 
 
-def parse_args(args):
+def parse_args(args) -> Namespace:
     """Parse the arguments."""
     parser = ArgumentParser(description="Create and save public and private keys into the folder")
     parser.add_argument("keys_folder", type=str, required=True, help="Path to the folder")
@@ -47,6 +47,7 @@ def parse_args(args):
 
 def main():
     """Main function. Entry point of the program."""
+    # Parse command-line arguments (excluding script name) using argparse
     args = parse_args(sys.argv[1:])
     # Generate keys
     public_key, private_key = generate_key_pair()

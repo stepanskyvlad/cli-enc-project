@@ -2,86 +2,24 @@
 Enctool module. This module contains the main functions to encrypt and decrypt texts.
 
 How to use the module:
-1) python encytool.py --encrypt path/to/binary/key/file example_text.txt -
-    encrypts the text from example_text.txt using the binary key file and return the result
+1) Encrypt mode:
+    1.1) python encytool.py --encrypt path/to/binary/key/file example_text.txt -
+encrypts the text from example_text.txt using the binary key file and print the result on the console.
 
-2) python encytool.py --decrypt path/to/binary/key/file example_text.txt -
-    decrypts the text from example_text.txt using the binary key file and return the result
+    1.2) python encytool.py --encrypt path/to/binary/key/file example_text.txt -w path/to/output/file -
+encrypts the text from example_text.txt using the binary key file and write the result into the output file.
+
+2) Decrypt mode:
+    2.1) python encytool.py --decrypt path/to/binary/key/file example_text.txt -
+decrypts the text from example_text.txt using the binary key file and return the result.
+
+    2.2) python encytool.py --decrypt path/to/binary/key/file example_text.txt -w path/to/output/file -
+decrypts the text from example_text.txt using the binary key file and write the result into the output file.
 """
 from argparse import ArgumentParser, Namespace
 import rsa
-from typing import List
 import sys
-
-
-def read_text_from_file(folder_path: str) -> str:
-    """
-    Read lines of files from a folder and return them as a list of strings.
-
-    Args:
-        folder_path (str): The path to the folder of the files to be read.
-    Returns:
-        List[str]: A list containing each line of the file as a string.
-
-    Raises:
-        FileNotFoundError: If the specified file is not found.
-        PermissionError: If there is a permission error while trying to open the file.
-    """
-    try:
-        with open(folder_path, "r", encoding="utf-8") as f:
-            text = "".join(f.readlines())
-        return text
-    except (FileNotFoundError, PermissionError) as e:
-        raise FileNotFoundError(f"Error reading file: {e}")
-
-
-def read_bytes_from_file(folder_path: str) -> bytes:
-    """
-    Read the bytes from a file.
-
-    Args:
-        folder_path (str): The path to the file to be read.
-
-    Returns:
-        bytes: The bytes read from the file.
-
-    Raises:
-        FileNotFoundError: If the specified file is not found.
-        PermissionError: If there is a permission error while trying to open the file.
-    """
-    try:
-        with open(folder_path, "rb") as f:
-            return f.read()
-    except (FileNotFoundError, PermissionError) as e:
-        raise FileNotFoundError(f"Error reading file: {e}")
-
-
-def load_public_key(key_path: str) -> rsa.PublicKey:
-    """
-    Load the public key from the file.
-
-    Args:
-        key_path (str): The path to the file containing the public key.
-
-    Returns:
-        PublicKey: The public key.
-    """
-    with open(key_path, "rb") as f:
-        return rsa.PublicKey.load_pkcs1(f.read())
-
-
-def load_private_key(key_path: str) -> rsa.PrivateKey:
-    """
-    Load the private key from the file.
-
-    Args:
-        key_path (str): The path to the file containing the private key.
-
-    Returns:
-        PrivateKey: The private key.
-    """
-    with open(key_path, "rb") as f:
-        return rsa.PrivateKey.load_pkcs1(f.read())
+from utils import read_text_from_file, read_bytes_from_file, load_public_key, load_private_key
 
 
 def encrypt_text(public_key: rsa.PublicKey, text: str) -> bytes:
@@ -148,12 +86,6 @@ def write_decrypted_file(decrypted_text: str, file_path: str) -> None:
 def parse_args(args) -> Namespace:
     """
     Parse the arguments.
-
-    Args:
-        The arguments to be parsed.
-
-    Returns:
-        The parsed arguments.
     """
     parser = ArgumentParser(description='Encrypt or decrypt text using a binary key file.')
     parser.add_argument('-e', '--encrypt', action='store_true', help='Encrypt mode')
@@ -169,23 +101,29 @@ def main():
     """
     Main function to run the module.
     """
+    # Parse command-line arguments (excluding script name) using argparse
     args = parse_args(sys.argv[1:])
-
+    # Encrypt mode
     if args.encrypt:
         public_key = load_public_key(args.key_file)
         text = read_text_from_file(args.input_file)
         encrypted_text = encrypt_text(public_key, text)
+        # Write the encrypted text into a file or print it on the console
         if args.write:
             write_encrypted_file(encrypted_text, args.write)
+        # Print the encrypted text on the console
         else:
             print(encrypted_text)
 
+    # Decrypt mode
     elif args.decrypt:
         private_key = load_private_key(args.key_file)
         encrypted_text = read_bytes_from_file(args.input_file)
         decrypted_text = decrypt_text(private_key, encrypted_text)
+        # Write the decrypted text into a file or print it on the console
         if args.write:
             write_decrypted_file(decrypted_text, args.write)
+        # Print the decrypted text on the console
         else:
             print(decrypted_text)
 
